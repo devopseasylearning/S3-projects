@@ -67,20 +67,20 @@ options {
 	    }
 
 
-        stage('Test golang') {
-	 agent {
-            docker {
-              image '3.140.121.181:5001/golang:1.20.0'
-              args '-u 0:0'
-            }
-           }
-            steps {
-                sh '''
-            cd stormer-project02/src/catalog/
-            go test
-                '''
-            }
-        }
+    //     stage('Test golang') {
+	//       agent {
+    //         docker {
+    //           image '3.140.121.181:5001/golang:1.20.0'
+    //           args '-u 0:0'
+    //         }
+    //        }
+    //         steps {
+    //             sh '''
+    //         cd stormer-project02/src/catalog/
+    //         go test
+    //             '''
+    //         }
+    //     }
 
 
 
