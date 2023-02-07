@@ -113,6 +113,19 @@ options {
             }
         }
 
+        stage('Test maven-ui') {
+	      agent {
+            docker {
+              image '3.140.121.181:5001/maven:3.8.7-openjdk-18'
+            }
+           }
+            steps {
+                sh '''
+            cd stormer-project02/src/ui/
+            mvn test
+                '''
+            }
+        }
 
 
 
