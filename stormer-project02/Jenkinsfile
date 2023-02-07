@@ -75,6 +75,7 @@ options {
            }
             steps {
                 sh '''
+                whoami
             cd stormer-project02/src/catalog/
             go test
                 '''
