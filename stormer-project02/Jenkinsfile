@@ -2,6 +2,9 @@ pipeline {
     agent {
      label ("node1")
             }
+  environment {
+		PATH=stormer-project02
+	}
 
 options {
     buildDiscarder(logRotator(numToKeepStr: '20'))
@@ -33,15 +36,59 @@ options {
                 }
             }
         }
- 
-        stage('Hello') {
+
+
+        //////////////////////////////////
+       stage('warning') {
+      steps {
+        script {
+            notifyUpgrade(currentBuild.currentResult, "WARNING")
+            sleep(time:env.WARNTIME, unit:"MINUTES")
+        }
+      }
+    }
+
+    stage('Login to Nexus') {
+
+	      steps {
+	        script {
+	          withCredentials([
+	            string(credentialsId: 'Nexus', variable: 'PASSWORD')
+	          ]) {
+
+	            sh '''
+                docker login 3.140.121.181:5001 -u admin -p  $PASSWORD
+	            '''
+	          }
+
+	        }
+
+	      }
+
+	    }
+
+
+        stage('Test golang') {
+	 agent {
+            docker {
+
+              image '3.140.121.181:5001/golang:alpine3.17'
+            }
+           }
             steps {
                 sh '''
-                ls 
-                pwd
+            cd $PATH/src/catalog/
+            go test
                 '''
             }
         }
+
+
+
+
+
+
+
     }
 
 
