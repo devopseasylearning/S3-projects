@@ -1,10 +1,9 @@
+PATH="stormer-project02"
+
 pipeline {
     agent {
      label ("node1")
             }
-  environment {
-		PATH=stormer-project02
-	}
 
 options {
     buildDiscarder(logRotator(numToKeepStr: '20'))
