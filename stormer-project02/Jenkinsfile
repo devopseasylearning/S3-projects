@@ -22,7 +22,7 @@ options {
                         
 
                              string(name: 'WARNTIME',
-                             defaultValue: '2',
+                             defaultValue: '0',
                             description: '''Warning time (in minutes) before starting upgrade'''),
 
                           string(
@@ -70,13 +70,13 @@ options {
         stage('Test golang') {
 	 agent {
             docker {
-
               image '3.140.121.181:5001/golang:alpine3.17'
             }
            }
             steps {
                 sh '''
-            cd $PATH/src/catalog/
+            PATHS=stormer-project02
+            cd $PATHS/src/catalog/
             go test
                 '''
             }
