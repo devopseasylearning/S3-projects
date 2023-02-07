@@ -75,8 +75,7 @@ options {
            }
             steps {
                 sh '''
-            PATHS=stormer-project02
-            cd $PATHS/src/catalog/
+            cd stormer-project02/src/catalog/
             go test
                 '''
             }
