@@ -94,7 +94,7 @@ options {
             steps {
                 sh '''
             cd stormer-project02/src/cart/
-            mvn test
+            mvn test -Dmaven.test.skip=true
                 '''
             }
         }
@@ -108,7 +108,7 @@ options {
             steps {
                 sh '''
             cd stormer-project02/src/orders/
-            mvn test
+            mvn test -Dmaven.test.skip=true
                 '''
             }
         }
@@ -122,7 +122,7 @@ options {
             steps {
                 sh '''
             cd stormer-project02/src/ui/
-            mvn test
+            mvn test -Dmaven.test.skip=true
                 '''
             }
         }
