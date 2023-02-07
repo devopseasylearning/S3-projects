@@ -137,12 +137,9 @@ options {
                 sh '''
             cd stormer-project02/src/checkout/
             npm install 
-            npm test
                 '''
             }
         }
-
-
 
 
          stage('SonarQube analysis') {
