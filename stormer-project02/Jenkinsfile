@@ -197,7 +197,7 @@ options {
         stage('Build maven-orders') {
 	      agent {
             docker {
-              image '3.140.121.181:5001/maven:3.8.7-openjdk-18'
+              image 'maven'
             }
            }
             steps {
