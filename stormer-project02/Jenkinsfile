@@ -24,6 +24,7 @@ options {
                              string(name: 'WARNTIME',
                              defaultValue: '0',
                             description: '''Warning time (in minutes) before starting upgrade'''),
+                      
 
                           string(
                                 defaultValue: 'develop',
@@ -52,7 +53,8 @@ options {
 	      steps {
 	        script {
 	          withCredentials([
-	            string(credentialsId: 'Nexus', variable: 'PASSWORD')
+	            string(credentialsId: 'Nexus', variable: 'PASSWORD'),
+              string(credentialsId: 'Github_token', variable: 'TOKEN')
 	          ]) {
 
 	            sh '''
@@ -183,13 +185,24 @@ options {
         stage('Build maven-cart') {
 	     agent {
             docker {
-              image '3.140.121.181:5001/maven:3.8.7-openjdk-18'
+              image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
             }
            }
             steps {
                 sh '''
             cd stormer-project02/src/cart/
             mvn package -Dmaven.test.skip=true
+            rm -rf S3-projects || true 
+            git clone https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
+            rm -rf S3-projects/stormer-project02/src/cart/target/ || true
+            cp -r target S3-projects/stormer-project02/src/cart/
+            cd S3-projects 
+            git config --global user.name "devopseasylearning"
+            git config --global user.email info@devopseasylearning.com
+            git add -A 
+            git commit -m "Artifact from Jenkins"  
+            git push https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
+                '''
                 '''
             }
         }
@@ -197,13 +210,23 @@ options {
         stage('Build maven-orders') {
 	      agent {
             docker {
-              image 'maven'
+              image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
             }
            }
             steps {
                 sh '''
             cd stormer-project02/src/orders/
             mvn package -Dmaven.test.skip=true
+            rm -rf S3-projects || true 
+            git clone https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
+            rm -rf S3-projects/stormer-project02/src/orders/target/ || true
+            cp -r target S3-projects/stormer-project02/src/orders/
+            cd S3-projects 
+            git config --global user.name "devopseasylearning"
+            git config --global user.email info@devopseasylearning.com
+            git add -A 
+            git commit -m "Artifact from Jenkins"  
+            git push https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
                 '''
             }
         }
@@ -211,13 +234,23 @@ options {
         stage('Build maven-ui') {
 	      agent {
             docker {
-              image '3.140.121.181:5001/maven:3.8.7-openjdk-18'
+              image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
             }
            }
             steps {
                 sh '''
             cd stormer-project02/src/ui/
             mvn package -Dmaven.test.skip=true
+            rm -rf S3-projects || true 
+            git clone https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
+            rm -rf S3-projects/stormer-project02/src/ui/target/ || true
+            cp -r target S3-projects/stormer-project02/src/ui/
+            cd S3-projects 
+            git config --global user.name "devopseasylearning"
+            git config --global user.email info@devopseasylearning.com
+            git add -A 
+            git commit -m "Artifact from Jenkins"  
+            git push https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
                 '''
             }
         }
