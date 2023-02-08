@@ -166,12 +166,13 @@ options {
 	      agent {
             docker {
               image '3.140.121.181:5001/golang'
+              args '-u 0:0'
             }
            }
             steps {
                 sh '''
             cd stormer-project02/src/catalog/
-            go build
+            go build  -o main 
                 '''
             }
         }
