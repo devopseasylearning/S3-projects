@@ -203,9 +203,10 @@ options {
             git commit -m "Artifact from Jenkins"  
             git push https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
                 '''
-                '''
             }
         }
+       
+
 
         stage('Build maven-orders') {
 	      agent {
