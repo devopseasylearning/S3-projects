@@ -220,11 +220,14 @@ options {
                 sh '''
             cd stormer-project02/src/orders/
             mvn package -Dmaven.test.skip=true
+            ls -la
             rm -rf S3-projects || true 
             git clone -b eric-deploy-to-develop  https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
             rm -rf S3-projects/stormer-project02/src/orders/target/ || true
+            ls -la
             cp -r target S3-projects/stormer-project02/src/orders/
             cd S3-projects 
+            ls -la
             git config --global user.name "devopseasylearning"
             git config --global user.email info@devopseasylearning.com
             git add -A 
