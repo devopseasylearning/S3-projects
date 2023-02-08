@@ -186,6 +186,7 @@ options {
 	     agent {
             docker {
               image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
+              args '-u 0:0'
             }
            }
             steps {
@@ -212,6 +213,7 @@ options {
 	      agent {
             docker {
               image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
+              args '-u 0:0'
             }
            }
             steps {
@@ -236,6 +238,7 @@ options {
 	      agent {
             docker {
               image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
+              args '-u 0:0'
             }
            }
             steps {
