@@ -191,6 +191,8 @@ options {
            }
             steps {
                 sh '''
+            git config --global user.name "devopseasylearning"
+            git config --global user.email info@devopseasylearning.com
             cd stormer-project02/src/cart/
             mvn package -Dmaven.test.skip=true
             ls -la
@@ -201,9 +203,8 @@ options {
             cp -r target S3-projects/stormer-project02/src/cart/ 
             echo $?
             cd S3-projects 
+            echo $BUILD_TAG > file
             ls -la stormer-project02/src/cart/
-            git config --global user.name "devopseasylearning"
-            git config --global user.email info@devopseasylearning.com
             git add -A 
             git commit -m "Artifact from Jenkins"  
             git push https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
