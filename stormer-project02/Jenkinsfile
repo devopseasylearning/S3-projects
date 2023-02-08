@@ -186,10 +186,9 @@ options {
 
             steps {
                 sh '''
-cd stormer-project02/src/cart/
+cd $WORKSPACE/stormer-project02/src/cart/
 docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
  ls -l
-cd ..
                '''
             }
         }
@@ -199,10 +198,9 @@ cd ..
         stage('Build maven-orders') {
             steps {
                 sh '''
-cd  orders/
+cd $WORKSPACE/stormer-project02/src/orders/
 docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
  ls -l
-cd ..
 '''
             }
         }
@@ -210,17 +208,13 @@ cd ..
         stage('Build maven-ui') {
             steps {
                 sh '''
-cd  orders/
+cd $WORKSPACE/stormer-project02/src/orders/
 docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
  ls -l
 cd $WORKSPACE
                 '''
             }
         }
-
-
-
-
 
     }
 
