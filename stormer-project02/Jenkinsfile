@@ -183,83 +183,37 @@ options {
 
 
         stage('Build maven-cart') {
-	     agent {
-            docker {
-              image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
-              args '-u 0:0'
-            }
-           }
+
             steps {
                 sh '''
-            git config --global user.name "devopseasylearning"
-            git config --global user.email info@devopseasylearning.com
-            cd stormer-project02/src/cart/
-            mvn package -Dmaven.test.skip=true
-            ls -la
-            rm -rf S3-projects || true 
-            git clone -b eric-deploy-to-develop  https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
-            rm -rf S3-projects/stormer-project02/src/cart/target/ || true
-            ls -la
-            cp -r target S3-projects/stormer-project02/src/cart/ 
-            echo $?
-            cd S3-projects 
-            echo $BUILD_TAG > file
-            ls -la stormer-project02/src/cart/
-            git add -A 
-            git commit -m "Artifact from Jenkins"  
-            git push https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
-                '''
+cd stormer-project02/src/cart/
+docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
+ ls -l
+cd ..
+               '''
             }
         }
        
 
 
         stage('Build maven-orders') {
-	      agent {
-            docker {
-              image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
-              args '-u 0:0'
-            }
-           }
             steps {
                 sh '''
-            cd stormer-project02/src/orders/
-            mvn package -Dmaven.test.skip=true
-            rm -rf S3-projects || true 
-            git clone -b eric-deploy-to-develop  https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
-            rm -rf S3-projects/stormer-project02/src/orders/target/ || true
-            cp -r target S3-projects/stormer-project02/src/orders/
-            cd S3-projects 
-            git config --global user.name "devopseasylearning"
-            git config --global user.email info@devopseasylearning.com
-            git add -A 
-            git commit -m "Artifact from Jenkins"  
-            git push https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
-                '''
+cd  orders/
+docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
+ ls -l
+cd ..
+'''
             }
         }
 
         stage('Build maven-ui') {
-	      agent {
-            docker {
-              image '3.140.121.181:5001/maven:3.8.7-openjdk-18.1'
-              args '-u 0:0'
-            }
-           }
             steps {
                 sh '''
-            cd stormer-project02/src/ui/
-            mvn package -Dmaven.test.skip=true
-            rm -rf S3-projects || true 
-            git clone -b eric-deploy-to-develop  https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
-            rm -rf S3-projects/stormer-project02/src/ui/target/ || true
-            cp -r target S3-projects/stormer-project02/src/ui/
-            cd S3-projects 
-            git config --global user.name "devopseasylearning"
-            git config --global user.email info@devopseasylearning.com
-            git add -A 
-            git commit -m "Artifact from Jenkins"  
-            git push https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
+cd  orders/
+docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
+ ls -l
+cd $WORKSPACE
                 '''
             }
         }
