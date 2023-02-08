@@ -172,7 +172,7 @@ options {
             steps {
                 sh '''
             cd stormer-project02/src/catalog/
-            go build  -o main 
+            go build  -o main  -buildvcs=false
                 '''
             }
         }
