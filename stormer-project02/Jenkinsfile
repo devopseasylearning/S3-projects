@@ -96,7 +96,7 @@ options {
       //       steps {
       //           sh '''
       //       cd stormer-project02/src/cart/
-      //       mvn test -Dmaven.test.skip=true
+      //       mvn –q  test  -Dmaven.test.skip=true
       //           '''
       //       }
       //   }
@@ -110,7 +110,7 @@ options {
         //     steps {
         //         sh '''
         //     cd stormer-project02/src/orders/
-        //     mvn test -Dmaven.test.skip=true
+        //     mvn –q  test -Dmaven.test.skip=true
         //         '''
         //     }
         // }
@@ -124,7 +124,7 @@ options {
         //     steps {
         //         sh '''
         //     cd stormer-project02/src/ui/
-        //     mvn test -Dmaven.test.skip=true
+        //     mvn –q  test -Dmaven.test.skip=true
         //         '''
         //     }
         // }
@@ -187,7 +187,7 @@ options {
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/cart/
-docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
+docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn –q  package -Dmaven.test.skip=true
  ls -l
                '''
             }
@@ -199,7 +199,7 @@ docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/orders/
-docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
+docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn –q  package -Dmaven.test.skip=true
  ls -l
 '''
             }
@@ -209,7 +209,7 @@ docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/orders/
-docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn package -Dmaven.test.skip=true
+docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn –q  package -Dmaven.test.skip=true
  ls -l
 cd $WORKSPACE
                 '''
