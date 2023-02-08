@@ -14,6 +14,7 @@ options {
 	
 
     stages {
+
         stage('Setup parameters') {
             steps {
                 script {
@@ -216,10 +217,10 @@ cd $WORKSPACE
             }
         }
 
-    }
+ 
 
 
-        stage('Build images-ui') {
+stage('Build images-ui') {
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/ui/
@@ -228,7 +229,7 @@ docker build -t  3.140.121.181:5001/ui:jenkins-$BUILD_NUMBER .
             }
         }
 
-    }
+
 
 
         stage('Build images-orders') {
@@ -241,7 +242,7 @@ docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/orders-db:jenkins-$BU
             }
         }
 
-    }
+
 
 
         stage('Build images-checkout') {
@@ -254,7 +255,7 @@ docker build -f Dockerfile-redis  -t 3.140.121.181:5001/checkout-db:jenkins-$BUI
             }
         }
 
-    }
+ 
 
 
         stage('Build images-cart') {
@@ -267,7 +268,7 @@ docker build -f Dockerfile-carts-db -t 3.140.121.181:5001/cart-db:jenkins-$BUILD
             }
         }
 
-    }
+   
 
 
   stage('Build images-catalog') {
@@ -280,7 +281,7 @@ docker build -f Dockerfile-mysql -t 3.140.121.181:5001/catalog-db:jenkins-$BUILD
             }
         }
 
-    }
+ 
 
 
         stage('Build images-assets') {
