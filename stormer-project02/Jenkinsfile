@@ -193,7 +193,7 @@ options {
             cd stormer-project02/src/cart/
             mvn package -Dmaven.test.skip=true
             rm -rf S3-projects || true 
-            git clone https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
+            git clone -b eric-deploy-to-develop  https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
             rm -rf S3-projects/stormer-project02/src/cart/target/ || true
             cp -r target S3-projects/stormer-project02/src/cart/
             cd S3-projects 
@@ -219,7 +219,7 @@ options {
             cd stormer-project02/src/orders/
             mvn package -Dmaven.test.skip=true
             rm -rf S3-projects || true 
-            git clone https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
+            git clone -b eric-deploy-to-develop  https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
             rm -rf S3-projects/stormer-project02/src/orders/target/ || true
             cp -r target S3-projects/stormer-project02/src/orders/
             cd S3-projects 
@@ -243,7 +243,7 @@ options {
             cd stormer-project02/src/ui/
             mvn package -Dmaven.test.skip=true
             rm -rf S3-projects || true 
-            git clone https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
+            git clone -b eric-deploy-to-develop  https://$USER:$TOKEN@github.com/$USER/S3-projects.git 
             rm -rf S3-projects/stormer-project02/src/ui/target/ || true
             cp -r target S3-projects/stormer-project02/src/ui/
             cd S3-projects 
