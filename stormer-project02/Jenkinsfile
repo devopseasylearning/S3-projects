@@ -96,7 +96,7 @@ options {
       //       steps {
       //           sh '''
       //       cd stormer-project02/src/cart/
-      //       mvn  test  -Dmaven.test.skip=true
+      //       mvn  test  -Dmaven.test.skip=true --quiet 
       //           '''
       //       }
       //   }
@@ -110,7 +110,7 @@ options {
         //     steps {
         //         sh '''
         //     cd stormer-project02/src/orders/
-        //     mvn   test -Dmaven.test.skip=true
+        //     mvn   test -Dmaven.test.skip=true --quiet 
         //         '''
         //     }
         // }
@@ -124,7 +124,7 @@ options {
         //     steps {
         //         sh '''
         //     cd stormer-project02/src/ui/
-        //     mvn  test -Dmaven.test.skip=true
+        //     mvn  test -Dmaven.test.skip=true --quiet 
         //         '''
         //     }
         // }
@@ -218,6 +218,81 @@ cd $WORKSPACE
 
     }
 
+
+        stage('Build images-ui') {
+            steps {
+                sh '''
+cd $WORKSPACE/stormer-project02/src/ui/
+docker build -t  3.140.121.181:5001/ui:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
+
+    }
+
+
+        stage('Build images-orders') {
+            steps {
+                sh '''
+cd $WORKSPACE/stormer-project02/src/orders/
+docker build -t  3.140.121.181:5001/orders:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/orders-db:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
+
+    }
+
+
+        stage('Build images-checkout') {
+            steps {
+                sh '''
+cd $WORKSPACE/stormer-project02/src/checkout/
+docker build -t  3.140.121.181:5001/checkout:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-redis  -t 3.140.121.181:5001/checkout-db:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
+
+    }
+
+
+        stage('Build images-cart') {
+            steps {
+                sh '''
+cd $WORKSPACE/stormer-project02/src/cart/
+docker build -t  3.140.121.181:5001/cart:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-carts-db -t 3.140.121.181:5001/cart-db:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
+
+    }
+
+
+  stage('Build images-catalog') {
+            steps {
+                sh '''
+cd $WORKSPACE/stormer-project02/src/catalog/
+docker build -t  3.140.121.181:5001/catalog:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-mysql -t 3.140.121.181:5001/catalog-db:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
+
+    }
+
+
+        stage('Build images-assets') {
+            steps {
+                sh '''
+cd $WORKSPACE/stormer-project02/src/assets/
+docker build -t  3.140.121.181:5001/assets:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
+
+    }
 
 
 post {
