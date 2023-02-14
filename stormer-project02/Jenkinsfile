@@ -230,7 +230,7 @@ cd $WORKSPACE/stormer-project02/src/checkout/
 docker build -t  3.140.121.181:5001/stormer/checkout:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-redis  -t 3.140.121.181:5001/stormer/checkout-redis:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/cart/
-docker build -t  3.140.121.181:5001/cart:jenkins-$BUILD_NUMBER .
+docker build -t  3.140.121.181:5001/stormer/cart:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-dynamodb -t 3.140.121.181:5001/stormer/cart-dynamodb:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/catalog/
 docker build -t  3.140.121.181:5001/stormer/catalog:jenkins-$BUILD_NUMBER .
