@@ -175,7 +175,7 @@ options {
            }
             steps {
                 sh '''
-            cd $WORKSPACE/tormer-project02/src/catalog/
+            cd $WORKSPACE/stormer-project02/src/catalog/
             go build   -buildvcs=false
                 '''
             }
