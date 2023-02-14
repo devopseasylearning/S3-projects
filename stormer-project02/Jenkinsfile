@@ -183,39 +183,37 @@ options {
 
 
 
-        stage('Build maven-cart') {
+//         stage('Build maven-cart') {
 
-            steps {
-                sh '''
-cd $WORKSPACE/stormer-project02/src/cart/
-docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn  package -Dmaven.test.skip=true --quiet  
- ls -l
-               '''
-            }
-        }
+//             steps {
+//                 sh '''
+// cd $WORKSPACE/stormer-project02/src/cart/
+// docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn  package -Dmaven.test.skip=true --quiet  
+//  ls -l
+//                '''
+//             }
+//         }
        
 
 
-        stage('Build maven-orders') {
-            steps {
-                sh '''
-cd $WORKSPACE/stormer-project02/src/orders/
-docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn  package -Dmaven.test.skip=true --quiet  
- ls -l
-'''
-            }
-        }
+//         stage('Build maven-orders') {
+//             steps {
+//                 sh '''
+// cd $WORKSPACE/stormer-project02/src/orders/
+// docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn  package -Dmaven.test.skip=true --quiet  
+// '''
+//             }
+//         }
 
-        stage('Build maven-ui') {
-            steps {
-                sh '''
-cd $WORKSPACE/stormer-project02/src/orders/
-docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn   package -Dmaven.test.skip=true --quiet  
- ls -l
-cd $WORKSPACE
-                '''
-            }
-        }
+//         stage('Build maven-orders') {
+//             steps {
+//                 sh '''
+// cd $WORKSPACE/stormer-project02/src/orders/
+// docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn   package -Dmaven.test.skip=true --quiet  
+// cd $WORKSPACE
+//                 '''
+//             }
+//         }
 
  
 
@@ -236,7 +234,9 @@ docker build -t  3.140.121.181:5001/ui:jenkins-$BUILD_NUMBER .
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/orders/
-docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/orders-db:jenkins-$BUILD_NUMBER .
+docker build  -t 3.140.121.181:5001/orders:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/orders-rabbitmq:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-mysql  -t 3.140.121.181:5001/orders-mysql:jenkins-$BUILD_NUMBER .
                 '''
             }
         }
@@ -249,7 +249,7 @@ docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/orders-db:jenkins-$BU
                 sh '''
 cd $WORKSPACE/stormer-project02/src/checkout/
 docker build -t  3.140.121.181:5001/checkout:jenkins-$BUILD_NUMBER .
-docker build -f Dockerfile-redis  -t 3.140.121.181:5001/checkout-db:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-redis  -t 3.140.121.181:5001/checkout-redis:jenkins-$BUILD_NUMBER .
                 '''
             }
         }
@@ -262,7 +262,7 @@ docker build -f Dockerfile-redis  -t 3.140.121.181:5001/checkout-db:jenkins-$BUI
                 sh '''
 cd $WORKSPACE/stormer-project02/src/cart/
 docker build -t  3.140.121.181:5001/cart:jenkins-$BUILD_NUMBER .
-docker build -f Dockerfile-carts-db -t 3.140.121.181:5001/cart-db:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-dynamodb -t 3.140.121.181:5001/cart-dynamodb:jenkins-$BUILD_NUMBER .
                 '''
             }
         }
@@ -275,7 +275,7 @@ docker build -f Dockerfile-carts-db -t 3.140.121.181:5001/cart-db:jenkins-$BUILD
                 sh '''
 cd $WORKSPACE/stormer-project02/src/catalog/
 docker build -t  3.140.121.181:5001/catalog:jenkins-$BUILD_NUMBER .
-docker build -f Dockerfile-mysql -t 3.140.121.181:5001/catalog-db:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-mysql -t 3.140.121.181:5001/catalog-mysql:jenkins-$BUILD_NUMBER .
                 '''
             }
         }
@@ -288,6 +288,7 @@ docker build -f Dockerfile-mysql -t 3.140.121.181:5001/catalog-db:jenkins-$BUILD
                 sh '''
 cd $WORKSPACE/stormer-project02/src/assets/
 docker build -t  3.140.121.181:5001/assets:jenkins-$BUILD_NUMBER .
+cd $WORKSPACE
                 '''
             }
         }
