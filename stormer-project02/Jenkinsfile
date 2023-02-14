@@ -235,7 +235,6 @@ cd $WORKSPACE
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/orders/
-docker build  -t 3.140.121.181:5001/orders:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/orders-rabbitmq:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-mysql  -t 3.140.121.181:5001/orders-mysql:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE
