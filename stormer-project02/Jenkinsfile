@@ -79,7 +79,7 @@ options {
            }
             steps {
                 sh '''
-            cd stormer-project02/src/catalog/
+            cd $WORKSPACE/stormer-project02/src/catalog/
             go test
                 '''
             }
@@ -96,8 +96,10 @@ options {
            }
             steps {
                 sh '''
-            cd stormer-project02/src/cart/
+            cd $WORKSPACE/stormer-project02/src/cart/
             mvn  test  -Dmaven.test.skip=true --quiet 
+            cd $WORKSPACE/stormer-project02/src/orders/
+            mvn   test -Dmaven.test.skip=true --quiet 
                 '''
             }
         }
@@ -110,8 +112,7 @@ options {
            }
             steps {
                 sh '''
-            cd stormer-project02/src/orders/
-            mvn   test -Dmaven.test.skip=true --quiet 
+
                 '''
             }
         }
@@ -124,7 +125,7 @@ options {
            }
             steps {
                 sh '''
-            cd stormer-project02/src/ui/
+            cd $WORKSPACE/stormer-project02/src/ui/
             mvn  test -Dmaven.test.skip=true --quiet 
                 '''
             }
@@ -138,7 +139,7 @@ options {
            }
             steps {
                 sh '''
-            cd stormer-project02/src/checkout/
+            cd $WORKSPACE/stormer-project02/src/checkout/
             npm install 
                 '''
             }
@@ -174,7 +175,7 @@ options {
            }
             steps {
                 sh '''
-            cd stormer-project02/src/catalog/
+            cd $WORKSPACE/tormer-project02/src/catalog/
             go build   -buildvcs=false
                 '''
             }
