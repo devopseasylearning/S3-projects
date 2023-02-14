@@ -258,8 +258,8 @@ stage('Build-images-cart') {
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/cart/
-docker build -t  3.140.121.181:5001/stormer/cart:jenkins-$BUILD_NUMBER .
-docker build -f Dockerfile-dynamodb -t 3.140.121.181:5001/stormer/cart-dynamodb:jenkins-$BUILD_NUMBER .
+docker build -t  3.140.121.181:5001/stormer/cart/cart:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-dynamodb -t 3.140.121.181:5001/stormer/cart/cart-dynamodb:jenkins-$BUILD_NUMBER .
                 '''
             }
         }
@@ -323,8 +323,8 @@ docker push  3.140.121.181:5001/stormer/checkout/checkout-redis:jenkins-$BUILD_N
 stage('Push-cart') {
             steps {
                 sh '''
-docker push  3.140.121.181:5001/stormer/cart:jenkins-$BUILD_NUMBER 
-docker push  3.140.121.181:5001/stormer/cart-dynamodb:jenkins-$BUILD_NUMBER
+docker push  3.140.121.181:5001/stormer/cart/cart:jenkins-$BUILD_NUMBER 
+docker push  3.140.121.181:5001/stormer/cart/cart-dynamodb:jenkins-$BUILD_NUMBER
                 '''
             }
         }
