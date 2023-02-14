@@ -205,15 +205,15 @@ docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18
             }
         }
 
-        stage('Build maven-orders') {
-            steps {
-                sh '''
-cd $WORKSPACE/stormer-project02/src/orders/
-docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn   package -Dmaven.test.skip=true --quiet  
-cd $WORKSPACE
-                '''
-            }
-        }
+//         stage('Build maven-orders') {
+//             steps {
+//                 sh '''
+// cd $WORKSPACE/stormer-project02/src/orders/
+// docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18  mvn   package -Dmaven.test.skip=true --quiet  
+// cd $WORKSPACE
+//                 '''
+//             }
+//         }
 
  
 
