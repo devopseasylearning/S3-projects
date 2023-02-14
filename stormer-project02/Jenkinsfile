@@ -222,21 +222,21 @@ stage('Build images') {
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/ui/
-docker build -t  3.140.121.181:5001/ui:jenkins-$BUILD_NUMBER .
+docker build -t  3.140.121.181:5001/stormer/ui:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/orders/
-docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/orders-rabbitmq:jenkins-$BUILD_NUMBER .
-docker build -f Dockerfile-mysql  -t 3.140.121.181:5001/orders-mysql:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/stormer/orders-rabbitmq:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-mysql  -t 3.140.121.181:5001/stormer/orders-mysql:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/checkout/
-docker build -t  3.140.121.181:5001/checkout:jenkins-$BUILD_NUMBER .
-docker build -f Dockerfile-redis  -t 3.140.121.181:5001/checkout-redis:jenkins-$BUILD_NUMBER .
+docker build -t  3.140.121.181:5001/stormer/checkout:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-redis  -t 3.140.121.181:5001/stormer/checkout-redis:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/cart/
 docker build -t  3.140.121.181:5001/cart:jenkins-$BUILD_NUMBER .
-docker build -f Dockerfile-dynamodb -t 3.140.121.181:5001/cart-dynamodb:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-dynamodb -t 3.140.121.181:5001/stormer/cart-dynamodb:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/catalog/
-docker build -t  3.140.121.181:5001/catalog:jenkins-$BUILD_NUMBER .
-docker build -f Dockerfile-mysql -t 3.140.121.181:5001/catalog-mysql:jenkins-$BUILD_NUMBER .
+docker build -t  3.140.121.181:5001/stormer/catalog:jenkins-$BUILD_NUMBER .
+docker build -f Dockerfile-mysql -t 3.140.121.181:5001/stormer/catalog-mysql:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/assets/
-docker build -t  3.140.121.181:5001/assets:jenkins-$BUILD_NUMBER .
+docker build -t  3.140.121.181:5001/stormer/assets:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE
                 '''
             }
@@ -248,16 +248,16 @@ cd $WORKSPACE
         stage('Push images') {
             steps {
                 sh '''
-docker push 3.140.121.181:5001/ui:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/orders-rabbitmq:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/orders-mysql:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/checkout:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/checkout-redis:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/cart:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/cart-dynamodb:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/catalog:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/catalog-mysql:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/assets:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/ui:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/orders-rabbitmq:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/orders-mysql:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/checkout:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/checkout-redis:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/cart:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/cart-dynamodb:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/catalog:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/catalog-mysql:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/assets:jenkins-$BUILD_NUMBER 
                 '''
             }
         }
