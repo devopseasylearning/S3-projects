@@ -98,11 +98,11 @@ options {
                 sh '''
             cd $WORKSPACE/stormer-project02/src/cart/
             mvn  test  -Dmaven.test.skip=true --quiet 
-            cd $WORKSPACE/stormer-project02/src/orders/
-            mvn   test -Dmaven.test.skip=true --quiet 
+
                 '''
             }
         }
+
 
         stage('Test maven-orders') {
 	      agent {
@@ -112,10 +112,12 @@ options {
            }
             steps {
                 sh '''
-
+            cd $WORKSPACE/stormer-project02/src/orders/
+            mvn   test -Dmaven.test.skip=true --quiet 
                 '''
             }
         }
+
 
         stage('Test maven-ui') {
 	      agent {
@@ -219,30 +221,64 @@ docker run -i -v $PWD:/maven -w /maven 3.140.121.181:5001/maven:3.8.7-openjdk-18
  
 
 
-stage('Build images') {
+
+stage('Build-images-ui') {
             steps {
                 sh '''
 cd $WORKSPACE/stormer-project02/src/ui/
 docker build -t  3.140.121.181:5001/stormer/ui:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
 
+stage('Build-images-orders') {
+            steps {
+                sh '''
 cd $WORKSPACE/stormer-project02/src/orders/
 docker build  -t 3.140.121.181:5001/stormer/orders/orders:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/stormer/orders/orders-rabbitmq:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-mysql  -t 3.140.121.181:5001/stormer/orders/orders-mysql:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
 
-
+stage('Build-images-checkout') {
+            steps {
+                sh '''
 cd $WORKSPACE/stormer-project02/src/checkout/
 docker build -t  3.140.121.181:5001/stormer/checkout/checkout:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-redis  -t 3.140.121.181:5001/stormer/checkout/checkout-redis:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
 
+
+
+stage('Build-images-cart') {
+            steps {
+                sh '''
 cd $WORKSPACE/stormer-project02/src/cart/
 docker build -t  3.140.121.181:5001/stormer/cart:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-dynamodb -t 3.140.121.181:5001/stormer/cart-dynamodb:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
 
+
+
+stage('Build-images-catalog') {
+            steps {
+                sh '''
 cd $WORKSPACE/stormer-project02/src/catalog/
 docker build -t  3.140.121.181:5001/stormer/catalog/catalog:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-mysql -t 3.140.121.181:5001/stormer/catalog/catalog-mysql:jenkins-$BUILD_NUMBER .
+                '''
+            }
+        }
 
+stage('Build-images-assets') {
+            steps {
+                sh '''
 cd $WORKSPACE/stormer-project02/src/assets/
 docker build -t  3.140.121.181:5001/stormer/assets/assets:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE
@@ -253,24 +289,61 @@ cd $WORKSPACE
 
 
 
-        stage('Push images') {
+
+stage('Push-ui') {
             steps {
                 sh '''
-docker push 3.140.121.181:5001/stormer/ui:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/stormer/orders/orders:jenkins-$BUILD_NUMBER
-docker push 3.140.121.181:5001/stormer/orders/orders-rabbitmq:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/stormer/orders/orders-mysql:jenkins-$BUILD_NUMBER 
+docker push   3.140.121.181:5001/stormer/ui:jenkins-$BUILD_NUMBER 
+                '''
+            }
+        }
 
-docker push 3.140.121.181:5001/stormer/checkout/checkout:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/stormer/checkout/checkout-redis:jenkins-$BUILD_NUMBER 
+stage('Push-orders') {
+            steps {
+                sh '''
 
-docker push 3.140.121.181:5001/stormer/cart:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/stormer/cart-dynamodb:jenkins-$BUILD_NUMBER 
+docker push    3.140.121.181:5001/stormer/orders/orders:jenkins-$BUILD_NUMBER 
+docker push    3.140.121.181:5001/stormer/orders/orders-rabbitmq:jenkins-$BUILD_NUMBER 
+docker push    3.140.121.181:5001/stormer/orders/orders-mysql:jenkins-$BUILD_NUMBER 
+                '''
+            }
+        }
 
-docker push 3.140.121.181:5001/stormer/catalog/catalog:jenkins-$BUILD_NUMBER 
-docker push 3.140.121.181:5001/stormer/catalog/catalog-mysql:jenkins-$BUILD_NUMBER 
+stage('Push-checkout') {
+            steps {
+                sh '''
+docker push  3.140.121.181:5001/stormer/checkout/checkout:jenkins-$BUILD_NUMBER 
+docker push  3.140.121.181:5001/stormer/checkout/checkout-redis:jenkins-$BUILD_NUMBER 
+                '''
+            }
+        }
 
-docker push 3.140.121.181:5001/stormer/assets/assets:jenkins-$BUILD_NUMBER 
+
+
+stage('Push-cart') {
+            steps {
+                sh '''
+docker push  3.140.121.181:5001/stormer/cart:jenkins-$BUILD_NUMBER 
+docker push  3.140.121.181:5001/stormer/cart-dynamodb:jenkins-$BUILD_NUMBER
+                '''
+            }
+        }
+
+
+
+stage('Push-catalog') {
+            steps {
+                sh '''
+docker push  3.140.121.181:5001/stormer/catalog/catalog:jenkins-$BUILD_NUMBER 
+docker push  3.140.121.181:5001/stormer/catalog/catalog-mysql:jenkins-$BUILD_NUMBER 
+                '''
+            }
+        }
+
+stage('Push-assets') {
+            steps {
+                sh '''
+docker push   3.140.121.181:5001/stormer/assets/assets:jenkins-$BUILD_NUMBER 
                 '''
             }
         }
@@ -278,25 +351,6 @@ docker push 3.140.121.181:5001/stormer/assets/assets:jenkins-$BUILD_NUMBER
 
 
 
-
-  stage('Build images-catalog') {
-            steps {
-                sh '''
-           ls
-                '''
-            }
-        }
-
- 
-
-
-        stage('Build images-assets') {
-            steps {
-                sh '''
-              ls
-                '''
-            }
-        }
 
     }
 
