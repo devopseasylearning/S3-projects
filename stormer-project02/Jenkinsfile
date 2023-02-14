@@ -224,6 +224,7 @@ stage('Build images') {
 cd $WORKSPACE/stormer-project02/src/ui/
 docker build -t  3.140.121.181:5001/stormer/ui:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/orders/
+docker build  -t 3.140.121.181:5001/stormer/orders:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-rabbitmq  -t 3.140.121.181:5001/stormer/orders-rabbitmq:jenkins-$BUILD_NUMBER .
 docker build -f Dockerfile-mysql  -t 3.140.121.181:5001/stormer/orders-mysql:jenkins-$BUILD_NUMBER .
 cd $WORKSPACE/stormer-project02/src/checkout/
@@ -249,6 +250,7 @@ cd $WORKSPACE
             steps {
                 sh '''
 docker push 3.140.121.181:5001/stormer/ui:jenkins-$BUILD_NUMBER 
+docker push 3.140.121.181:5001/stormer/orders:jenkins-$BUILD_NUMBER
 docker push 3.140.121.181:5001/stormer/orders-rabbitmq:jenkins-$BUILD_NUMBER 
 docker push 3.140.121.181:5001/stormer/orders-mysql:jenkins-$BUILD_NUMBER 
 docker push 3.140.121.181:5001/stormer/checkout:jenkins-$BUILD_NUMBER 
