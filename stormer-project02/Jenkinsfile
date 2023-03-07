@@ -4,7 +4,9 @@ pipeline {
     agent {
      label ("node1")
             }
-
+  environment {
+		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+	}
 options {
     buildDiscarder(logRotator(numToKeepStr: '20'))
     disableConcurrentBuilds()
@@ -49,25 +51,14 @@ options {
       }
     }
 
-    stage('Login to Nexus') {
 
-	      steps {
-	        script {
-	          withCredentials([
-	            string(credentialsId: 'Nexus', variable: 'PASSWORD'),
-              string(credentialsId: 'Github_token', variable: 'TOKEN')
-	          ]) {
+    stage('Login') {
 
-	            sh '''
-                docker login 3.140.121.181:5001 -u admin -p  $PASSWORD
-	            '''
-	          }
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
 
-	        }
-
-	      }
-
-	    }
 
 
         stage('Test golang') {
@@ -349,7 +340,68 @@ docker push   devopseasylearning2021/assets:jenkins-$BUILD_NUMBER
         }
 
 
+stage('helm-charts') {
 
+	      steps {
+	        script {
+	          withCredentials([
+	            string(credentialsId: 'Github_token', variable: 'TOKEN')
+	          ]) {
+
+	            sh '''
+                rm -rf S3-projects-charts || true 
+                git clone https://devopseasylearning:$TOKEN@github.com/devopseasylearning/S3-projects-charts.git
+ cat << EOF > dev-values.yaml
+       repository:
+         tag:   jenkins-$BUILD_NUMBER
+         assets:
+          image: devopseasylearning2021/asset
+       
+         carts:
+          image: devopseasylearning2021/carts
+       
+         cart_dynamodb:
+          image: devopseasylearning2021/cart-dynamodb
+        
+         catalog:
+          image: devopseasylearning2021/catalog
+       
+        
+         catalog_mysql:
+          image: devopseasylearning2021/catalog-mysql
+       
+         checkout:
+          image: devopseasylearning2021/checkout
+       
+         checkout_redis:
+          image: devopseasylearning2021/checkout-redis
+       
+         orders:
+          image: devopseasylearning2021/orders
+       
+         orders_mysql:
+          image: devopseasylearning2021/orders-mysql
+       
+         orders_rabbitmq:
+          image: devopseasylearning2021/orders-rabbitmq 
+       
+         ui:
+          image: devopseasylearning2021/ui
+   EOF
+git config --global user.name "devopseasylearning"
+git config --global user.email "info@devopseasylearning.com"
+   cat  dev-values.yaml
+   git add -A 
+    git commit -m "Change from JENKINS" 
+    git push  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/S3-projects-charts.git
+	            '''
+	          }
+
+	        }
+
+	      }
+
+	    }
 
 
     }
