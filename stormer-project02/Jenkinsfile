@@ -60,14 +60,14 @@ options {
 		}
 
         stage('clean env') {
-	      agent {
-
             steps {
                 sh '''
             docker system prune -fa || true
                 '''
             }
         }
+
+        
 
         stage('Test golang') {
 	      agent {
