@@ -356,10 +356,10 @@ cat << EOF > dev-values.yaml
        repository:
          tag:   jenkins-$BUILD_NUMBER
          assets:
-          image: devopseasylearning2021/asset
+          image: devopseasylearning2021/assets
        
          carts:
-          image: devopseasylearning2021/carts
+          image: devopseasylearning2021/cart
        
          cart_dynamodb:
           image: devopseasylearning2021/cart-dynamodb
