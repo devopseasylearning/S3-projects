@@ -351,7 +351,7 @@ stage('helm-charts') {
 	            sh '''
                 rm -rf S3-projects-charts || true 
                 git clone https://devopseasylearning:$TOKEN@github.com/devopseasylearning/S3-projects-charts.git
- cat << EOF > dev-values.yaml
+cat << EOF > dev-values.yaml
        repository:
          tag:   jenkins-$BUILD_NUMBER
          assets:
@@ -387,7 +387,7 @@ stage('helm-charts') {
        
          ui:
           image: devopseasylearning2021/ui
-   EOF
+EOF
 git config --global user.name "devopseasylearning"
 git config --global user.email "info@devopseasylearning.com"
    cat  dev-values.yaml
