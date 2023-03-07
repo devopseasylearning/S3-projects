@@ -64,7 +64,7 @@ options {
         stage('Test golang') {
 	      agent {
             docker {
-              image 'golang:1.20.0'
+              image 'golang:alpine3.17'
               args '-u 0:0'
             }
            }
