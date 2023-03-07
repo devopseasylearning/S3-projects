@@ -351,6 +351,7 @@ stage('helm-charts') {
 	            sh '''
                 rm -rf S3-projects-charts || true 
                 git clone https://devopseasylearning:$TOKEN@github.com/devopseasylearning/S3-projects-charts.git
+                cd S3-projects-charts
 cat << EOF > dev-values.yaml
        repository:
          tag:   jenkins-$BUILD_NUMBER
