@@ -177,17 +177,7 @@ docker run -i -v $PWD:/maven -w /maven maven:3.8.7-openjdk-18  mvn  package -Dma
             }
         }
 
-//         stage('Build maven-orders') {
-//             steps {
-//                 sh '''
-// cd $WORKSPACE/stormer-project02/src/orders/
-// docker run -i -v $PWD:/maven -w /maven maven:3.8.7-openjdk-18  mvn   package -Dmaven.test.skip=true --quiet  
-// cd $WORKSPACE
-//                 '''
-//             }
-//         }
 
- 
 
 
 
