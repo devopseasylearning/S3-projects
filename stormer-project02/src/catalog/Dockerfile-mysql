@@ -1,1 +1,1 @@
-FROM mysql:5.7
+FROM devopseasylearning2021/mysql:5.7.8

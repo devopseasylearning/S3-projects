@@ -1,1 +1,1 @@
-FROM rabbitmq:3-management
+FROM devopseasylearning2021/rabbitmq:3-management

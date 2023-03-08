@@ -1,1 +1,1 @@
-FROM amazon/dynamodb-local:1.13.1
+FROM devopseasylearning2021/dynamodb-local:1.13.1
