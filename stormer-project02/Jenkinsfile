@@ -291,6 +291,10 @@ cd $WORKSPACE
 
 
 stage('Push-ui') {
+  when{ 
+          expression {
+            env.BRANCH_NAME == 'develop' }   
+    }
             steps {
                 sh '''
 docker push   devopseasylearning2021/ui:jenkins-$BUILD_NUMBER 
@@ -299,6 +303,10 @@ docker push   devopseasylearning2021/ui:jenkins-$BUILD_NUMBER
         }
 
 stage('Push-orders') {
+  when{ 
+          expression {
+            env.BRANCH_NAME == 'develop' }   
+    }
             steps {
                 sh '''
 
@@ -310,6 +318,10 @@ docker push    devopseasylearning2021/orders-mysql:jenkins-$BUILD_NUMBER
         }
 
 stage('Push-checkout') {
+  when{ 
+          expression {
+            env.BRANCH_NAME == 'develop' }   
+    }
             steps {
                 sh '''
 docker push  devopseasylearning2021/checkout:jenkins-$BUILD_NUMBER 
@@ -321,6 +333,10 @@ docker push  devopseasylearning2021/checkout-redis:jenkins-$BUILD_NUMBER
 
 
 stage('Push-cart') {
+  when{ 
+          expression {
+            env.BRANCH_NAME == 'develop' }   
+    }  
             steps {
                 sh '''
 docker push  devopseasylearning2021/cart:jenkins-$BUILD_NUMBER 
@@ -332,6 +348,10 @@ docker push  devopseasylearning2021/cart-dynamodb:jenkins-$BUILD_NUMBER
 
 
 stage('Push-catalog') {
+  when{ 
+          expression {
+            env.BRANCH_NAME == 'develop' }   
+    }
             steps {
                 sh '''
 docker push  devopseasylearning2021/catalog:jenkins-$BUILD_NUMBER 
@@ -341,6 +361,10 @@ docker push  devopseasylearning2021/catalog-mysql:jenkins-$BUILD_NUMBER
         }
 
 stage('Push-assets') {
+  when{ 
+          expression {
+            env.BRANCH_NAME == 'develop' }   
+    }
             steps {
                 sh '''
 docker push   devopseasylearning2021/assets:jenkins-$BUILD_NUMBER 
@@ -350,6 +374,10 @@ docker push   devopseasylearning2021/assets:jenkins-$BUILD_NUMBER
 
 
 stage('helm-charts') {
+  when{ 
+          expression {
+            env.BRANCH_NAME == 'develop' }   
+    }
 
 	      steps {
 	        script {
