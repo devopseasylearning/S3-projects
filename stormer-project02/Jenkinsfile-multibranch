@@ -17,39 +17,8 @@ options {
 
     stages {
 
-        stage('Setup parameters') {
-            steps {
-                script {
-                    properties([
-                        parameters([
-                        
-
-                             string(name: 'WARNTIME',
-                             defaultValue: '0',
-                            description: '''Warning time (in minutes) before starting upgrade'''),
-                      
-
-                          string(
-                                defaultValue: 'develop',
-                                name: 'Please_leave_this_section_as_it_is',
-                                trim: true
-                            ),
-                        ])
-                    ])
-                }
-            }
-        }
 
 
-        //////////////////////////////////
-       stage('warning') {
-      steps {
-        script {
-            notifyUpgrade(currentBuild.currentResult, "WARNING")
-            sleep(time:env.WARNTIME, unit:"MINUTES")
-        }
-      }
-    }
 
 
     stage('Login') {
@@ -288,182 +257,28 @@ cd $WORKSPACE
 
 
 
+    }
 
 
-stage('Push-ui') {
+   post {
+   
+   success {
+      slackSend (channel: '#development-alerts', color: 'good', message: "SUCCESSFUL: Application STORMER  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    }
 
-            steps {
-                sh '''
-docker push   devopseasylearning2021/ui:jenkins-$BUILD_NUMBER 
-                '''
-            }
-        }
-
-stage('Push-orders') {
-
-            steps {
-                sh '''
-
-docker push    devopseasylearning2021/orders:jenkins-$BUILD_NUMBER 
-docker push    devopseasylearning2021/orders-rabbitmq:jenkins-$BUILD_NUMBER 
-docker push    devopseasylearning2021/orders-mysql:jenkins-$BUILD_NUMBER 
-                '''
-            }
-        }
-
-stage('Push-checkout') {
-
-            steps {
-                sh '''
-docker push  devopseasylearning2021/checkout:jenkins-$BUILD_NUMBER 
-docker push  devopseasylearning2021/checkout-redis:jenkins-$BUILD_NUMBER 
-                '''
-            }
-        }
-
-
-
-stage('Push-cart') {
  
-            steps {
-                sh '''
-docker push  devopseasylearning2021/cart:jenkins-$BUILD_NUMBER 
-docker push  devopseasylearning2021/cart-dynamodb:jenkins-$BUILD_NUMBER
-                '''
-            }
-        }
-
-
-
-stage('Push-catalog') {
-
-            steps {
-                sh '''
-docker push  devopseasylearning2021/catalog:jenkins-$BUILD_NUMBER 
-docker push  devopseasylearning2021/catalog-mysql:jenkins-$BUILD_NUMBER 
-                '''
-            }
-        }
-
-stage('Push-assets') {
-
-            steps {
-                sh '''
-docker push   devopseasylearning2021/assets:jenkins-$BUILD_NUMBER 
-                '''
-            }
-        }
-
-
-stage('helm-charts') {
-
-
-	      steps {
-	        script {
-	          withCredentials([
-	            string(credentialsId: 'Github_token', variable: 'TOKEN')
-	          ]) {
-
-	            sh '''
-                rm -rf S3-projects-charts || true 
-                git clone https://devopseasylearning:$TOKEN@github.com/devopseasylearning/S3-projects-charts.git
-                cd S3-projects-charts
-cat << EOF > dev-values.yaml
-       repository:
-         tag:   jenkins-$BUILD_NUMBER
-         assets:
-          image: devopseasylearning2021/assets
-       
-         carts:
-          image: devopseasylearning2021/cart
-       
-         cart_dynamodb:
-          image: devopseasylearning2021/cart-dynamodb
-        
-         catalog:
-          image: devopseasylearning2021/catalog
-       
-        
-         catalog_mysql:
-          image: devopseasylearning2021/catalog-mysql
-       
-         checkout:
-          image: devopseasylearning2021/checkout
-       
-         checkout_redis:
-          image: devopseasylearning2021/checkout-redis
-       
-         orders:
-          image: devopseasylearning2021/orders
-       
-         orders_mysql:
-          image: devopseasylearning2021/orders-mysql
-       
-         orders_rabbitmq:
-          image: devopseasylearning2021/orders-rabbitmq 
-       
-         ui:
-          image: devopseasylearning2021/ui
-EOF
-git config --global user.name "devopseasylearning"
-git config --global user.email "info@devopseasylearning.com"
-   cat  dev-values.yaml
-   git add -A 
-    git commit -m "Change from JENKINS" 
-    git push  https://devopseasylearning:$TOKEN@github.com/devopseasylearning/S3-projects-charts.git
-	            '''
-	          }
-
-	        }
-
-	      }
-
-	    }
-
-
+    unstable {
+      slackSend (channel: '#development-alerts', color: 'warning', message: "UNSTABLE: Application STORMER  Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
 
-
-post {
-    always {
-      script {
-        notifyUpgrade(currentBuild.currentResult, "POST")
-      }
+    failure {
+      slackSend (channel: '#development-alerts', color: '#FF0000', message: "FAILURE: Application STORMER Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
     }
-    
-  }
+   
+    cleanup {
+      deleteDir()
+    }
+}
 
 }
 
-
-
-def notifyUpgrade(String buildResult, String whereAt) {
-  if (Please_leave_this_section_as_it_is == 'origin/develop') {
-    channel = 'development-alerts'
-  } else {
-    channel = 'development-alerts'
-  }
-  if (buildResult == "SUCCESS") {
-    switch(whereAt) {
-      case 'WARNING':
-        slackSend(channel: channel,
-                color: "#439FE0",
-                message: "Stormer: Upgrade starting in ${env.WARNTIME} minutes @ ${env.BUILD_URL}  Application Stormer")
-        break
-    case 'STARTING':
-      slackSend(channel: channel,
-                color: "good",
-                message: "Stormer: Starting upgrade @ ${env.BUILD_URL} Application Stormer")
-      break
-    default:
-        slackSend(channel: channel,
-                color: "good",
-                message: "Stormer: Upgrade completed successfully @ ${env.BUILD_URL}  Application Stormer")
-        break
-    }
-  } else {
-    slackSend(channel: channel,
-              color: "danger",
-              message: "Stormer: Upgrade was not successful. Please investigate it immediately.  @ ${env.BUILD_URL}  Application Stormer")
-  }
-}
