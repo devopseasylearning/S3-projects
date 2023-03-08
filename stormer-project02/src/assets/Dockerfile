@@ -1,1 +1,1 @@
-FROM devopseasylearning2021/assets:0.2.0
+FROM public.ecr.aws/aws-containers/retail-store-sample-assets:0.2.0
