@@ -17,7 +17,7 @@ require (
 	github.com/cznic/mathutil v0.0.0-20180504122225-ca4c9f2c1369 // indirect
 	github.com/denisenkom/go-mssqldb v0.10.0
 	github.com/dhui/dktest v0.3.10
-	github.com/docker/docker v20.10.13+incompatible
+	github.com/docker/docker v20.10.27+incompatible
 	github.com/docker/go-connections v0.4.0
 	github.com/edsrzf/mmap-go v0.0.0-20170320065105-0bce6a688712 // indirect
 	github.com/envoyproxy/go-control-plane v0.10.1 // indirect
